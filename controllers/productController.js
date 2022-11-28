@@ -1,4 +1,6 @@
 const Product = require('../models/product');
+const { validationResult } = require('express-validator');
+
 
 exports.searchProduct = (req, res, next) => {
     const params = req.query;
@@ -51,4 +53,45 @@ exports.getProductById = (req, res, next) => {
         console.log(error);
         res.status(500).json(error);
     });
+}
+
+
+exports.addProduct = (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        const mappedError = errors.array();
+        if(mappedError.length === 1){
+            res.status(400).json(mappedError[0].msg);
+            return;
+        }
+        const errorObject = {}
+        mappedError.forEach((error)=>{
+            errorObject[error.param] = error.msg;
+        })
+        res.status(400).json(errorObject);
+        return;
+    }
+    if(req.userRole !== 'ADMIN'){
+        res.status(401).json('You are not authorised to access this endpoint!');
+        return;
+    }
+
+    const { availableItems, category, description, imageURL, manufacturer,  name, price} = req.body;
+
+    const newProduct = new Product({
+        availableItems: availableItems,
+        category: category,
+        description: description || "",
+        imageURL: imageURL || "",
+        manufacturer: manufacturer,
+        name: name,
+        price: price
+    });
+
+    newProduct.save().then((result)=>{
+        res.status(200).json(result);
+    }).catch((error)=>{
+        console.log(error);
+        res.status(500).json(error);
+    })
 }

@@ -32,5 +32,12 @@ router.get('/products/categories', ProductController.getProductCategories);
 
 router.get('/products/:id', ProductController.getProductById);
 
+router.post('/products', authMiddleware, [
+    body('availableItems').trim().isNumeric().withMessage('availableItems is required!'),
+    body('category').trim().not().isEmpty().withMessage('category is required!'),
+    body('manufacturer').trim().not().isEmpty().withMessage('manufacturer is required!'),
+    body('name').trim().not().isEmpty().withMessage('name is required!'),
+    body('price').trim().isNumeric().withMessage('price is required!'),
+], ProductController.addProduct);
 
 module.exports = router;
