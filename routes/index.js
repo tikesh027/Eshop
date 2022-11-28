@@ -4,6 +4,7 @@ const AuthController = require('../controllers/authController');
 const authMiddleware = require('../middleware/authMiddleware');
 const ShippingAddressController = require('../controllers/shippingAddressController');
 const ProductController = require('../controllers/productController');
+const OrderController = require('../controllers/orderController');
 
 const router = express.Router();
 
@@ -44,5 +45,10 @@ router.put('/products/:id', authMiddleware, ProductController.updateProduct);
 
 router.delete('/products/:id', authMiddleware, ProductController.deleteProduct);
 
+router.post('/orders', authMiddleware, [
+    body('addressId').trim().not().isEmpty().withMessage('addressId is required!'),
+    body('productId').trim().not().isEmpty().withMessage('productId is required!'),
+    body('quantity').trim().isNumeric().withMessage('Please enter valid quantity'),
+], OrderController.createOrder);
 
 module.exports = router;
