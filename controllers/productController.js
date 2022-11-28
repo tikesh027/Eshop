@@ -1,6 +1,5 @@
-const Product = require('../models/product');
 const { validationResult } = require('express-validator');
-
+const Product = require('../models/product');
 
 exports.searchProduct = (req, res, next) => {
     const params = req.query;
@@ -55,7 +54,6 @@ exports.getProductById = (req, res, next) => {
     });
 }
 
-
 exports.addProduct = (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -96,7 +94,6 @@ exports.addProduct = (req, res, next) => {
     })
 }
 
-
 exports.updateProduct = (req, res, next) => {
     if(req.userRole !== 'ADMIN'){
         res.status(401).json('You are not authorised to access this endpoint!');
@@ -118,7 +115,6 @@ exports.updateProduct = (req, res, next) => {
         res.status(500).json(error);
     })
 }
-
 
 exports.deleteProduct = (req, res, next) => {
     if(req.userRole !== 'ADMIN'){
