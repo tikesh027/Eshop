@@ -38,3 +38,17 @@ exports.getProductById = (req, res, next) => {
         res.status(500).json(error);
     });
 }
+
+exports.getProductById = (req, res, next) => {
+    const productId = req.params.id;
+    Product.findById(productId).then((result) => {
+        if(!result){
+            res.status(404).json(`No Product found for ID - ${productId}`);
+            return;
+        }
+        res.status(200).json(result);
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).json(error);
+    });
+}

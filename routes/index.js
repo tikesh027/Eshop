@@ -30,5 +30,7 @@ router.get('/products', ProductController.searchProduct);
 
 router.get('/products/categories', ProductController.getProductCategories);
 
+router.get('/products/:id', ProductController.getProductById);
+
 
 module.exports = router;
