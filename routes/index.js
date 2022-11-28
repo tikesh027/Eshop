@@ -42,5 +42,7 @@ router.post('/products', authMiddleware, [
 
 router.put('/products/:id', authMiddleware, ProductController.updateProduct);
 
+router.delete('/products/:id', authMiddleware, ProductController.deleteProduct);
+
 
 module.exports = router;
