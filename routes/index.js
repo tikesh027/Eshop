@@ -40,4 +40,7 @@ router.post('/products', authMiddleware, [
     body('price').trim().isNumeric().withMessage('price is required!'),
 ], ProductController.addProduct);
 
+router.put('/products/:id', authMiddleware, ProductController.updateProduct);
+
+
 module.exports = router;

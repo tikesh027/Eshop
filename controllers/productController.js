@@ -95,3 +95,26 @@ exports.addProduct = (req, res, next) => {
         res.status(500).json(error);
     })
 }
+
+
+exports.updateProduct = (req, res, next) => {
+    if(req.userRole !== 'ADMIN'){
+        res.status(401).json('You are not authorised to access this endpoint!');
+        return;
+    }
+    const productId = req.params.id;
+    const { availableItems, category, description, imageURL, manufacturer,  name, price} = req.body;
+
+    Product.findByIdAndUpdate(productId,{
+        availableItems, category, description, imageURL, manufacturer,  name, price
+    }, { new: true }).then((result)=>{
+        if(!result){
+            res.status(404).json(`No Product found for ID - ${productId}`);
+            return;
+        }
+        res.status(200).json(result);
+    }).catch((error)=>{
+        console.log(error);
+        res.status(500).json(error);
+    })
+}
