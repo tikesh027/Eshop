@@ -9,5 +9,8 @@ router.post('/users', [
     body('password').trim().isLength({ min: 2 }).withMessage('Password too short')
 ], AuthController.signup);
 
+router.post('/auth', [
+    body('email').isEmail().withMessage('Invalid email-id format!'),
+], AuthController.login);
 
 module.exports = router;
