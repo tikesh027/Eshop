@@ -3,7 +3,7 @@ const { body } = require('express-validator/check');
 const AuthController = require('../controllers/authController');
 const authMiddleware = require('../middleware/authMiddleware');
 const ShippingAddressController = require('../controllers/shippingAddressController');
-
+const ProductController = require('../controllers/productController');
 
 const router = express.Router();
 
@@ -25,5 +25,8 @@ router.post('/addresses', authMiddleware, [
     body('state').trim().not().isEmpty().withMessage('state is required!'),
     body('street').trim().not().isEmpty().withMessage('street is required!'),
 ], ShippingAddressController.addAddress);
+
+router.get('/products', ProductController.searchProduct);
+
 
 module.exports = router;
