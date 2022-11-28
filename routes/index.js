@@ -28,5 +28,7 @@ router.post('/addresses', authMiddleware, [
 
 router.get('/products', ProductController.searchProduct);
 
+router.get('/products/categories', ProductController.getProductCategories);
+
 
 module.exports = router;
